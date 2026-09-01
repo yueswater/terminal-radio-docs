@@ -16,16 +16,21 @@ menubar:
       icon: default:monitor
       title: menu.home
       url: /
-    - id: github
+    - id: docs
       theme: '#2f81f7'
+      icon: default:documents
+      title: menu.docs
+      url: /docs/
+    - id: about
+      theme: '#d29922'
+      icon: default:pin
+      title: menu.about
+      url: /about/
+    - id: github
+      theme: '#f85149'
       icon: default:github
       title: menu.source
       url: https://github.com/yueswater/terminal-radio
-    - id: pypi
-      theme: '#d29922'
-      icon: default:documents
-      title: menu.pypi
-      url: https://pypi.org/project/radiotui-tw/
 
 footer:
   content: |

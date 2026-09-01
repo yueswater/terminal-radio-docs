@@ -6,12 +6,20 @@
 
 const STRINGS = {
   'zh-TW': {
-    menu: { home: '首頁', source: '原始碼', pypi: '套件' },
-    site: { other_language: 'English' },
+    menu: { home: '首頁', docs: '使用教學', about: '關於', source: '原始碼' },
+    site: {
+      get_started: '開始使用',
+      other_language: 'English',
+      other_language_url: '/en/',
+    },
   },
   en: {
-    menu: { home: 'Home', source: 'Source', pypi: 'Package' },
-    site: { other_language: '繁體中文' },
+    menu: { home: 'Home', docs: 'Guide', about: 'About', source: 'Source' },
+    site: {
+      get_started: 'Get started',
+      other_language: '繁體中文',
+      other_language_url: '/',
+    },
   },
 };
 

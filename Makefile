@@ -1,7 +1,7 @@
 # Common tasks for the terminal-radio website. Run make help to list them.
 
 .DEFAULT_GOAL := help
-.PHONY: help install preview build clean serve fonts deploy
+.PHONY: help install preview build test clean serve fonts deploy
 
 help: ## Show every available target
 	@grep -E '^[a-z-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-10s\033[0m %s\n", $$1, $$2}'
@@ -14,6 +14,9 @@ preview: ## Serve the site with live reload, the way it looks while writing
 
 build: ## Generate the static site into public/
 	npx hexo clean && npx hexo generate
+
+test: ## Build the site and verify every public page
+	bash tests/site.sh
 
 serve: build ## Serve exactly what was generated, with nothing rebuilt
 	npx hexo server --static --port $(PORT)

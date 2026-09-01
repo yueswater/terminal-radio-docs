@@ -4,6 +4,7 @@ subtitle: FM · AM · Taiwan
 description: Terminal radio player for Taiwanese FM and AM stations, with a Textual UI and a FastAPI control API
 keywords: radio, terminal, tui, textual, taiwan, fm, am, mpv
 author: Anthony Sung
+favicon: /images/favicon.svg
 # The first entry is the default. Pages under source/en/ set their own.
 language:
   - zh-TW
@@ -27,6 +28,7 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
+  - css/*.css
 
 # Writing
 new_post_name: :title.md
