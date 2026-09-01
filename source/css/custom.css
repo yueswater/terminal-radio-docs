@@ -1,0 +1,57 @@
+/* The palette the terminal interface uses, applied to the theme.
+   Stellar derives its dark greys from a hue; these are the exact values from
+   terminal_radio/data/themes.yml, so the site and the program agree. */
+
+@font-face {
+  font-family: 'Departure Mono';
+  src: url('/fonts/DepartureMono-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cubic 11';
+  src: url('/fonts/Cubic_11.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  /* Latin is drawn by Departure Mono, so this face is asked only for the
+     scripts it is here for. */
+  unicode-range: U+2E80-9FFF, U+3000-303F, U+FF00-FFEF;
+}
+
+:root,
+:root[data-theme="dark"] {
+  --background: #0d1117;
+  --card: #161b22;
+  --block: #21262d;
+  --text-code: #d29922;
+}
+
+@media screen and (max-width: 768px) {
+  :root,
+  :root[data-theme="dark"] {
+    --background: #0d1117;
+  }
+}
+
+/* Pixel faces are drawn on a grid, so they read badly when the browser tries
+   to smooth them. */
+body, h1, h2, h3, h4, h5, code, pre {
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+/* Square everything the theme rounds: pixel type wants corners. */
+.card, .cards .item, button, .btn, input, .tag, .note, img {
+  border-radius: 0 !important;
+}
+
+/* A landing page is not an article: when it was written says nothing useful
+   about a program whose version lives on the index. */
+#post-meta .created,
+#post-meta .updated,
+#post-meta .sep {
+  display: none;
+}

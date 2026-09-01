@@ -1,0 +1,72 @@
+# Stellar, restyled with the palette the terminal interface itself uses.
+# Only what differs from the theme default is set here; everything else comes
+# from node_modules/hexo-theme-stellar/_config.yml.
+
+logo:
+  title: terminal-radio
+  navbar:
+    title: terminal-radio
+  sidebar:
+    title: terminal-radio
+
+menubar:
+  items:
+    - id: home
+      theme: '#3fb950'
+      icon: default:monitor
+      title: menu.home
+      url: /
+    - id: github
+      theme: '#2f81f7'
+      icon: default:github
+      title: menu.source
+      url: https://github.com/yueswater/terminal-radio
+    - id: pypi
+      theme: '#d29922'
+      icon: default:documents
+      title: menu.pypi
+      url: https://pypi.org/project/radiotui-tw/
+
+footer:
+  content: |
+    <p>MIT · <a href="https://github.com/yueswater/terminal-radio">GitHub</a> · <a href="https://pypi.org/project/radiotui-tw/">PyPI</a></p>
+
+search:
+  service: local_search
+
+comments:
+  service:
+
+style:
+  # Dark only, for now. The interface it documents has no light mode on by
+  # default either.
+  prefers_theme: dark
+  font-size:
+    root: 16px
+    code: 90%
+    codeblock: 0.8125rem
+  font-family:
+    # Latin first, then the Chinese pixel face, so each script is drawn by the
+    # font that actually has glyphs for it.
+    body: '"Departure Mono", "Cubic 11", ui-monospace, Menlo, Consolas, monospace'
+    code: '"Departure Mono", "Cubic 11", ui-monospace, Menlo, Consolas, monospace'
+    codeblock: '"Departure Mono", "Cubic 11", ui-monospace, Menlo, Consolas, monospace'
+  color:
+    theme: '#3fb950'
+    accent: '#d29922'
+    link: '#2f81f7'
+  # Pixel type wants square corners, not the theme's rounded cards.
+  border-radius:
+    card-l: 0px
+    card: 0px
+    card-s: 0px
+    bar: 0px
+    image-l: 0px
+    image: 0px
+    image-s: 0px
+  corner-shape: round
+  leftbar:
+    ui-style: card
+    background-image:
+  site:
+    background-image:
