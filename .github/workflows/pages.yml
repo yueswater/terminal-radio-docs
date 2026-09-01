@@ -1,9 +1,5 @@
 name: Pages
 
-# GitHub Pages builds a repository with Jekyll unless it is told otherwise, and
-# this is a Hexo site, so the build happens here and only the finished pages are
-# handed over. Set Pages to deploy from GitHub Actions rather than from a
-# branch, or Jekyll will keep trying and keep failing.
 on:
   push:
     branches: [main]
@@ -14,8 +10,6 @@ permissions:
   pages: write
   id-token: write
 
-# One deployment at a time, and a newer commit waits rather than cancelling the
-# one already publishing.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -28,8 +22,11 @@ jobs:
 
       - uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: 22.22.2
           cache: npm
+
+      - name: Use npm 10.9.7
+        run: npm install --global npm@10.9.7
 
       - name: Install the dependencies
         run: npm ci
