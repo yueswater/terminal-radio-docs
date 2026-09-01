@@ -12,7 +12,7 @@ language:
 timezone: Asia/Taipei
 
 # URL
-url: https://radio.yueswater.com
+url: https://wavepick.yueswater.com
 permalink: :title/
 permalink_defaults:
 pretty_urls:

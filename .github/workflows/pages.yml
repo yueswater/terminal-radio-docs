@@ -1,0 +1,54 @@
+name: Pages
+
+# GitHub Pages builds a repository with Jekyll unless it is told otherwise, and
+# this is a Hexo site, so the build happens here and only the finished pages are
+# handed over. Set Pages to deploy from GitHub Actions rather than from a
+# branch, or Jekyll will keep trying and keep failing.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time, and a newer commit waits rather than cancelling the
+# one already publishing.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install the dependencies
+        run: npm ci
+
+      - name: Check the site still says what it should
+        run: bash tests/site.sh
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
