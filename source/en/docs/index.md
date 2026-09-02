@@ -9,7 +9,7 @@ menu_id: docs
 
 # Guide
 
-terminal-radio supports macOS and Linux; Windows works through WSL. It requires Python 3.12 or later and [mpv](https://mpv.io/), which plays the audio.
+Wavepick supports macOS and Linux; Windows works through WSL. It requires Python 3.12 or later and [mpv](https://mpv.io/), which plays the audio.
 
 ## Installation
 

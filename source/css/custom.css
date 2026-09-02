@@ -1,4 +1,4 @@
-/* terminal-radio website: product chrome over Stellar's content renderer. */
+/* Wavepick website: product chrome over Stellar's content renderer. */
 
 @font-face {
   font-family: 'Departure Mono';
@@ -17,18 +17,20 @@
   unicode-range: U+2E80-9FFF, U+3000-303F, U+FF00-FFEF;
 }
 
-:root,
-:root[data-theme='dark'] {
-  --background: #0d1117;
-  --card: #161b22;
-  --block: #21262d;
-  --text-code: #d29922;
-  --radio-green: #3fb950;
-  --radio-blue: #2f81f7;
-  --radio-amber: #d29922;
-  --radio-red: #f85149;
-  --radio-line: #30363d;
-  --radio-muted: #8b949e;
+/* Departure Mono squeezes © into its narrow cell by drawing the ring as a tall
+   oval, which reads as a c with a bracket above and below it. Cubic 11 draws
+   the sign round, so that one character is taken from there. Declared before
+   the body face so it wins for the range it claims. */
+@font-face {
+  font-family: 'Round Copyright';
+  src: url('/fonts/Cubic_11.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+00A9;
+}
+
+:root {
   --navbar-height: 72px;
 }
 
@@ -54,7 +56,7 @@ button,
 input,
 select,
 textarea {
-  font-family: 'Departure Mono', 'Cubic 11', ui-monospace, Menlo, Consolas, monospace !important;
+  font-family: 'Round Copyright', 'Departure Mono', 'Cubic 11', ui-monospace, Menlo, Consolas, monospace !important;
 }
 
 body,
@@ -81,7 +83,7 @@ button:focus-visible {
   top: 8px;
   left: 8px;
   padding: 8px 12px;
-  color: #0d1117;
+  color: var(--background);
   background: var(--radio-green);
   transform: translateY(-150%);
 }
@@ -96,13 +98,24 @@ button:focus-visible {
   top: 0;
   height: var(--navbar-height);
   border: 0;
-  background: rgba(13, 17, 23, 0.94);
+  /* Clear over the page it sits on, so the hero reads full height. The frosted
+     panel arrives only once there is content behind it to obscure. */
+  background: transparent;
   box-shadow: none;
-  backdrop-filter: blur(16px);
+  backdrop-filter: none;
+  transition: background 200ms ease, backdrop-filter 200ms ease;
 }
 
 .site-navbar.is-scrolled {
   border-bottom: 1px solid var(--radio-line);
+  background: rgba(var(--background-rgb), 0.94);
+  backdrop-filter: blur(16px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-navbar {
+    transition: none;
+  }
 }
 
 .site-navbar__inner {
@@ -120,8 +133,8 @@ button:focus-visible {
   min-width: 0;
   align-items: center;
   justify-self: start;
-  gap: 12px;
-  color: #f0f6fc;
+  gap: 8px;
+  color: var(--foreground-strong);
   line-height: 1;
   white-space: nowrap;
 }
@@ -130,10 +143,17 @@ button:focus-visible {
   color: var(--radio-green);
 }
 
-.site-brand img {
-  width: 36px;
-  height: 36px;
-  flex: 0 0 36px;
+/* The mark stands exactly as tall as the name beside it. Its grid is sixteen
+   cells, so at a 16px name every cell is one screen pixel and the staircase
+   stays sharp; a size between two multiples of the grid would blur it. */
+.site-brand__mark {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 1rem;
+  background: linear-gradient(90deg, var(--radio-green), var(--radio-amber));
+  -webkit-mask: url('/images/favicon.svg') center / contain no-repeat;
+  mask: url('/images/favicon.svg') center / contain no-repeat;
 }
 
 .site-brand__name {
@@ -151,8 +171,7 @@ button:focus-visible {
 }
 
 .site-nav a,
-.language-switch,
-.sound-toggle {
+.navbar-tool {
   color: var(--radio-muted);
   font-size: 0.875rem;
   line-height: 1;
@@ -161,9 +180,8 @@ button:focus-visible {
 
 .site-nav a:hover,
 .site-nav a[aria-current='page'],
-.language-switch:hover,
-.sound-toggle:hover {
-  color: #f0f6fc;
+.navbar-tool:hover {
+  color: var(--foreground-strong);
 }
 
 .site-nav a[aria-current='page'] {
@@ -180,39 +198,47 @@ button:focus-visible {
   gap: 6px;
 }
 
-.language-switch,
-.sound-toggle {
+/* The three controls in the navbar are drawn, not written, so they read the
+   same at any language and keep the pixel grid the rest of the site sits on. */
+.navbar-tool {
   display: inline-flex;
-  width: 44px;
+  width: 36px;
   height: 32px;
   align-items: center;
   justify-content: center;
-}
-
-.sound-toggle {
   border: 0;
   padding: 0;
   color: var(--radio-green);
   background: transparent;
   cursor: pointer;
-  font-size: 0.625rem;
-  letter-spacing: 0.08em;
+}
+
+.navbar-tool svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* One button, two marks: the crossed-out speaker is not a state of the plain
+   one, so both are drawn and the muted class chooses. */
+.sound-toggle__off {
+  display: none;
 }
 
 .sound-toggle.is-muted {
   color: var(--radio-muted);
-  text-decoration: line-through;
-  text-decoration-thickness: 1px;
 }
 
-.language-switch {
-  color: var(--radio-green);
+.sound-toggle.is-muted .sound-toggle__on {
+  display: none;
 }
 
-.language-switch__label {
+.sound-toggle.is-muted .sound-toggle__off {
   display: block;
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
+}
+
+.palette-toggle[aria-expanded='true'] {
+  color: var(--foreground-strong);
 }
 
 /* Stellar still renders content and metadata. Its sidebars and article banner
@@ -255,7 +281,6 @@ button:focus-visible {
 .md-text h3,
 .site-brand,
 .site-nav a,
-.language-switch,
 .hero-kicker,
 .hero-cta {
   word-break: keep-all;
@@ -263,7 +288,7 @@ button:focus-visible {
 }
 
 .md-text h1 {
-  color: #f0f6fc;
+  color: var(--foreground-strong);
   font-size: clamp(2rem, 5vw, 3.5rem);
   line-height: 1.15;
   letter-spacing: -0.03em;
@@ -273,27 +298,32 @@ button:focus-visible {
   margin-top: 3.25rem;
   padding-top: 0.8rem;
   border-top: 1px solid var(--radio-line);
-  color: #f0f6fc;
+  color: var(--foreground-strong);
 }
 
 .md-text h2::before {
   color: var(--radio-green);
 }
 
-.l_body[type='tech'] article.content h2 > a.headerlink:first-child {
+.md-text h2 > a.headerlink:first-child {
   margin-right: 0.45em;
   padding: 0;
   color: var(--radio-green);
-  background: transparent !important;
+  border-radius: 0;
+  background: none !important;
+  background-image: none !important;
   box-shadow: none;
 }
 
-.l_body[type='tech'] article.content h2 > a.headerlink:first-child:hover {
-  color: #f0f6fc;
-  background: transparent !important;
+.md-text h2 > a.headerlink:first-child:hover,
+.md-text h2 > a.headerlink:first-child:focus-visible,
+.md-text h2 > a.headerlink:first-child:active {
+  color: var(--foreground-strong);
+  background: none !important;
+  background-image: none !important;
 }
 
-.l_body[type='tech'] article.content h2 > a.headerlink:first-child::before {
+.md-text h2 > a.headerlink:first-child::before {
   color: inherit;
 }
 
@@ -319,7 +349,7 @@ button:focus-visible {
 .md-text a:not(.headerlink):not(.hero-cta):hover,
 .md-text a:not(.headerlink):not(.hero-cta):focus-visible {
   border-radius: 0;
-  color: #fff !important;
+  color: var(--foreground-strong) !important;
   background-color: transparent !important;
   background-image: linear-gradient(var(--radio-green), var(--radio-green)) !important;
   background-repeat: no-repeat !important;
@@ -389,22 +419,26 @@ img {
   z-index: -2;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 45%, rgba(63, 185, 80, 0.08), transparent 34%),
-    repeating-linear-gradient(0deg, transparent 0 11px, rgba(240, 246, 252, 0.018) 12px);
+    radial-gradient(circle at 50% 45%, rgba(var(--radio-green-rgb), 0.08), transparent 34%),
+    repeating-linear-gradient(0deg, transparent 0 11px, rgba(var(--foreground-strong-rgb), 0.018) 12px);
   content: '';
 }
 
+/* The dial sits in the flow, between the mark and the line of text.
+
+   Pinned at half the window's height it drifted into the text instead: the
+   mark is sized against the window's width, so the block of content grows and
+   shrinks under a line that never moved. In the flow the spacing holds at
+   every size. Its own height is one pixel; the scale and the sweep overhang it
+   and are clipped by the section. */
 .hero-signal {
-  position: absolute;
-  z-index: -1;
-  top: 50%;
-  left: 50%;
+  position: relative;
   width: min(900px, 86vw);
   height: 1px;
+  margin: 26px 0 0;
   background: linear-gradient(90deg, transparent, var(--radio-green) 20% 80%, transparent);
-  box-shadow: 0 0 28px rgba(63, 185, 80, 0.25);
+  box-shadow: 0 0 28px rgba(var(--radio-green-rgb), 0.25);
   opacity: 0.35;
-  transform: translate(-50%, -50%);
 }
 
 .hero-signal::before {
@@ -424,7 +458,7 @@ img {
   left: 0;
   width: 18%;
   height: 3px;
-  background: linear-gradient(90deg, transparent, #f0f6fc, var(--radio-green), transparent);
+  background: linear-gradient(90deg, transparent, var(--foreground-strong), var(--radio-green), transparent);
   box-shadow: 0 0 14px var(--radio-green);
   content: '';
   animation: radio-scan 3.6s steps(48, end) infinite;
@@ -444,7 +478,7 @@ img {
 .hero-airwaves span {
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(63, 185, 80, 0.42);
+  border: 1px solid rgba(var(--radio-green-rgb), 0.42);
   border-radius: 50%;
   opacity: 0;
   animation: airwave 3.8s steps(24, end) infinite;
@@ -463,14 +497,14 @@ img {
   width: min(720px, 84vw);
   height: auto;
   margin: 0;
-  filter: drop-shadow(0 0 28px rgba(46, 196, 182, 0.1));
+  filter: drop-shadow(0 0 28px rgba(var(--radio-green-rgb), 0.14));
   animation: logo-tune-in 720ms steps(9, end) both;
 }
 
 .hero-name {
   max-width: calc(100vw - 40px);
-  margin: 30px 0 0;
-  color: #f0f6fc;
+  margin: 52px 0 0;
+  color: var(--foreground-strong);
   font-size: clamp(1.35rem, 4vw, 2.5rem);
   line-height: 1.35;
   word-break: keep-all;
@@ -493,9 +527,9 @@ img {
   margin-top: 36px;
   border: 1px solid var(--radio-green);
   padding: 14px 20px;
-  color: #0d1117;
+  color: var(--background);
   background: var(--radio-green);
-  box-shadow: 5px 5px 0 #1f6f2e;
+  box-shadow: 5px 5px 0 var(--radio-green-shadow);
   font-size: 1rem;
   line-height: 1;
   transition: transform 120ms ease, box-shadow 120ms ease;
@@ -503,8 +537,8 @@ img {
 }
 
 .hero-cta:hover {
-  color: #0d1117;
-  box-shadow: 2px 2px 0 #1f6f2e;
+  color: var(--background);
+  box-shadow: 2px 2px 0 var(--radio-green-shadow);
   transform: translate(3px, 3px);
 }
 
@@ -524,7 +558,7 @@ img {
   0% { opacity: 0; clip-path: inset(49% 0 49% 0); filter: brightness(3) saturate(0); }
   38% { opacity: 1; clip-path: inset(38% 0 38% 0); }
   68% { clip-path: inset(8% 0 8% 0); filter: brightness(1.7) saturate(1.4); }
-  100% { opacity: 1; clip-path: inset(0); filter: drop-shadow(0 0 28px rgba(46, 196, 182, 0.1)); }
+  100% { opacity: 1; clip-path: inset(0); filter: drop-shadow(0 0 28px rgba(var(--radio-green-rgb), 0.14)); }
 }
 
 @keyframes receiver-on {
@@ -540,10 +574,10 @@ img {
   place-items: center;
   pointer-events: none;
   opacity: 0;
-  color: #f0f6fc;
+  color: var(--foreground-strong);
   background:
-    repeating-linear-gradient(0deg, transparent 0 9px, rgba(63, 185, 80, 0.045) 10px),
-    #0d1117;
+    repeating-linear-gradient(0deg, transparent 0 9px, rgba(var(--radio-green-rgb), 0.045) 10px),
+    var(--background);
 }
 
 .page-transition::before {
@@ -569,7 +603,7 @@ img {
 }
 
 .tuning-label {
-  color: #f0f6fc;
+  color: var(--foreground-strong);
   font-size: clamp(1.25rem, 4vw, 2rem);
   letter-spacing: 0.14em;
   white-space: nowrap;
@@ -596,7 +630,7 @@ img {
   width: clamp(5px, 1vw, 9px);
   height: 72px;
   background: var(--radio-green);
-  box-shadow: 0 0 12px rgba(63, 185, 80, 0.35);
+  box-shadow: 0 0 12px rgba(var(--radio-green-rgb), 0.35);
   transform: scaleY(0.18);
   transform-origin: center;
   animation: tuning-wave 460ms steps(4, end) infinite alternate;
@@ -675,7 +709,7 @@ body.is-page-entering .tuning-display {
 .site-footer {
   border-top: 1px solid var(--radio-line);
   color: var(--radio-muted);
-  background: #0d1117;
+  background: var(--background);
   font-size: 0.75rem;
 }
 
@@ -691,8 +725,33 @@ body.is-page-entering .tuning-display {
 
 .site-footer__links {
   display: flex;
+  align-items: center;
   gap: 20px;
   white-space: nowrap;
+}
+
+/* The two destinations that are somewhere else carry their own mark. MIT is a
+   page on this site and keeps to words. */
+.site-footer__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Getting in touch is the one thing in the footer worth asking for, so it is
+   set heavier. The pixel faces ship a single weight, and asking the browser
+   for bold makes it invent one and smear the grid; a copy of the glyphs one
+   pixel to the right thickens them without softening an edge. */
+.site-footer__contact {
+  text-shadow: 1px 0 0 currentColor;
+}
+
+.site-footer__links svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
 }
 
 .site-footer a {
@@ -703,20 +762,34 @@ body.is-page-entering .tuning-display {
   color: var(--radio-green);
 }
 
+/* Back to top. Stellar fills the row and then fills it again on hover; here
+   the words carry the state instead, the way every other link on the page
+   does. */
+.widget-wrapper.toc .widget-footer a {
+  background: none !important;
+  color: var(--radio-muted) !important;
+}
+
+.widget-wrapper.toc .widget-footer a:hover,
+.widget-wrapper.toc .widget-footer a:focus-visible {
+  background: none !important;
+  color: var(--radio-green) !important;
+}
+
 #data-toc a.toc-link {
   border-radius: 0 !important;
   transition: color 120ms linear, background-color 120ms steps(4, end), transform 120ms steps(3, end);
 }
 
 #data-toc a.toc-link:hover {
-  color: #f0f6fc;
+  color: var(--foreground-strong);
   transform: translateX(2px);
 }
 
 #data-toc a.toc-link.is-reading,
 #data-toc a.toc-link[aria-current='location'] {
   border-radius: 0 !important;
-  color: #fff !important;
+  color: var(--foreground-strong) !important;
   background: var(--radio-green) !important;
   transform: none;
 }
@@ -759,7 +832,9 @@ body.is-page-entering .tuning-display {
     display: none;
   }
 
-  .site-brand img {
+  /* The name is hidden at this width, so the mark carries the brand alone and
+     is given two pixels a cell. */
+  .site-brand__mark {
     width: 32px;
     height: 32px;
     flex-basis: 32px;
@@ -779,10 +854,9 @@ body.is-page-entering .tuning-display {
     font-size: 0.75rem;
   }
 
-  .language-switch {
-    flex: 0 0 32px;
-    width: 32px;
-    font-size: 0.75rem;
+  .navbar-tool {
+    flex: 0 0 30px;
+    width: 30px;
   }
 
   .site-nav a[aria-current='page'] {
@@ -876,5 +950,536 @@ body.is-page-entering .tuning-display {
   .hero-signal::after,
   .page-transition {
     display: none !important;
+  }
+}
+
+/* Sharing, at the end of the page where somebody who has read it is. The
+   icons take the footer's colour and lift to the accent on hover, the same
+   way its links do. */
+/* Sharing, at the end of the piece it shares. It is separated from the last
+   paragraph by a rule, so it reads as an afterword rather than as content. */
+.page-share {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 3rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--radio-line);
+}
+
+.page-share__label {
+  margin-right: 2px;
+  color: var(--radio-muted);
+  font-size: 0.8125rem;
+}
+
+.page-share__link {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  color: var(--radio-muted);
+  background: transparent;
+  cursor: pointer;
+}
+
+.page-share__link svg {
+  /* Sized by height, because the LINE mark is a wordmark in a bubble and so
+     wider than the square icons beside it. Matching heights keeps them
+     looking the same weight. */
+  height: 18px;
+  width: auto;
+  /* Pixel icons are drawn on a grid, so they must not be smoothed. */
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+}
+
+.page-share__link:hover,
+.page-share__link:focus-visible {
+  color: var(--radio-green);
+}
+
+.page-share__link.is-copied {
+  color: var(--radio-green);
+}
+
+/* The bar beside a heading is Stellar's anchor, coloured from the palette.
+   Stellar also eases it, and an eased background drawn from a var() is exactly
+   what Chrome refuses to recompute; there is nothing here worth easing. */
+.md-text h1 > a:first-child,
+.md-text h2 > a:first-child,
+.md-text h3 > a:first-child,
+.md-text h4 > a:first-child,
+.md-text h5 > a:first-child,
+.md-text h6 > a:first-child {
+  transition: none !important;
+}
+
+/* Switching palette repaints everything at once.
+
+   Two reasons to suspend transitions while it happens. Stellar puts
+   `transition: all` on several elements, and Chrome will not recompute a
+   background that came from a var() while such a transition is armed — the bar
+   beside a heading kept the colour it was born with. And a page carrying
+   fourteen different eased colour changes at once reads as a smear rather than
+   a change of theme. The attribute is dropped again on the next frame. */
+:root[data-palette-switching] *,
+:root[data-palette-switching] *::before,
+:root[data-palette-switching] *::after {
+  transition: none !important;
+}
+
+/* The palette sheet.
+
+   Fourteen palettes with swatches do not fit under a navbar button, so the
+   picker rises from the bottom of the window instead, where a thumb already
+   is on a phone. */
+.palette-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* The display above is an author rule, and an author rule outweighs the
+   browser's own handling of the hidden attribute. Without this the closed
+   sheet still covers the window and swallows every scroll. */
+.palette-sheet[hidden] {
+  display: none;
+}
+
+.palette-sheet__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(var(--background-rgb), 0.72);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.palette-sheet.is-open .palette-sheet__scrim {
+  opacity: 1;
+}
+
+.palette-sheet__panel {
+  position: relative;
+  width: min(760px, 100%);
+  max-height: 76vh;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--radio-line);
+  border-bottom: 0;
+  background: var(--card);
+  transform: translateY(100%);
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.palette-sheet.is-open .palette-sheet__panel {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .palette-sheet__panel,
+  .palette-sheet__scrim {
+    transition: none;
+  }
+}
+
+.palette-sheet__head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid var(--radio-line);
+}
+
+.palette-sheet__title {
+  color: var(--foreground-strong);
+  font-size: 0.9375rem;
+}
+
+.palette-sheet__hint {
+  flex: 1 1 auto;
+  color: var(--radio-muted);
+  font-size: 0.75rem;
+}
+
+.palette-sheet__close {
+  border: 0;
+  padding: 0 4px;
+  color: var(--radio-muted);
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.palette-sheet__close:hover {
+  color: var(--foreground-strong);
+}
+
+.palette-list {
+  margin: 0;
+  padding: 14px 18px 22px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 8px;
+  list-style: none;
+}
+
+.palette-option {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--radio-line);
+  padding: 9px 11px;
+  color: var(--radio-muted);
+  background: var(--block);
+  cursor: pointer;
+  text-align: left;
+}
+
+.palette-option:hover,
+.palette-option:focus-visible {
+  border-color: var(--radio-green) !important;
+  color: var(--foreground-strong);
+}
+
+.palette-option.is-active {
+  border-color: var(--radio-green) !important;
+  color: var(--foreground-strong);
+  box-shadow: inset 3px 0 0 var(--radio-green);
+}
+
+/* Four squares of the palette itself: the page, then the three colours it
+   speaks with. Enough to recognise a theme without applying it. */
+.palette-option__swatch {
+  display: grid;
+  flex: 0 0 auto;
+  grid-template-columns: repeat(2, 9px);
+  grid-template-rows: repeat(2, 9px);
+  border: 1px solid var(--radio-line);
+}
+
+.palette-option__swatch i {
+  display: block;
+}
+
+.palette-option__label {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.palette-option__name {
+  color: inherit;
+  font-size: 0.875rem;
+  line-height: 1.2;
+}
+
+.palette-option__alt {
+  overflow: hidden;
+  color: var(--radio-muted);
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.palette-option__tag {
+  flex: 0 0 auto;
+  padding: 1px 5px;
+  border: 1px solid var(--radio-line);
+  color: var(--radio-muted);
+  font-size: 0.625rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .palette-list {
+    grid-template-columns: 1fr;
+    padding: 12px 14px 18px;
+  }
+
+  .palette-sheet__panel {
+    max-height: 82vh;
+  }
+}
+
+/* A word about what just happened. It rises from the lower edge so it reads as
+   a transient status, rather than another panel dropping out of the navbar. */
+.site-toast {
+  position: fixed;
+  z-index: 70;
+  bottom: 18px;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  max-width: min(340px, calc(100vw - 36px));
+  border: 1px solid var(--radio-line);
+  padding: 9px 13px;
+  background: var(--card);
+  box-shadow: 3px 3px 0 rgba(var(--background-rgb), 0.6);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 200ms ease, transform 200ms ease;
+  pointer-events: none;
+}
+
+/* Author styles outweigh the browser's own handling of the hidden attribute,
+   so display has to be answered here as well as set above. */
+.site-toast[hidden] {
+  display: none;
+}
+
+.site-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* A short bar in the palette's own colour, so the toast belongs to the theme
+   it is often announcing. */
+.site-toast::before {
+  content: '';
+  flex: 0 0 3px;
+  align-self: stretch;
+  margin-right: 10px;
+  background: var(--radio-green);
+}
+
+.site-toast__text {
+  color: var(--foreground-strong);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-toast {
+    transition: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-toast {
+    right: 12px;
+    left: 12px;
+    max-width: none;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+}
+
+/* A press tunes one tiny signal into four directions. The sparks move in hard
+   frames rather than easing, then remove themselves without covering the next
+   target under the pointer. */
+.pixel-burst {
+  position: fixed;
+  z-index: 90;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  contain: layout style;
+}
+
+.pixel-burst__spark {
+  --spark-x: 0px;
+  --spark-y: 0px;
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 4px;
+  height: 4px;
+  background: var(--radio-green);
+  animation: pixel-spark 320ms steps(5, end) both;
+}
+
+.pixel-burst__spark:nth-child(1) {
+  --spark-y: -12px;
+}
+
+.pixel-burst__spark:nth-child(2) {
+  --spark-x: 12px;
+  background: var(--radio-amber);
+}
+
+.pixel-burst__spark:nth-child(3) {
+  --spark-y: 12px;
+}
+
+.pixel-burst__spark:nth-child(4) {
+  --spark-x: -12px;
+  background: var(--radio-amber);
+}
+
+@keyframes pixel-spark {
+  0%, 66% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(var(--spark-x), var(--spark-y));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-burst {
+    display: none;
+  }
+}
+
+/* The licence page's heading, on a ribbon with a book at each end.
+
+   The ribbon's notched ends are cut with a staircase rather than a diagonal,
+   so the shape belongs to the same grid the type and the icons are drawn on.
+   Its geometry comes from two lengths: a step of the staircase, and how far
+   each step moves in. Changing those two rescales the whole thing. */
+/* The licence page's heading, put on the air.
+
+   The heading sits on a tuning scale — two rules with the ticks of a dial — and
+   a broadcast mast stands at each end. The scale runs off both ends behind the
+   masts rather than closing with an upright, so the band reads as continuing
+   past the edge of the picture.
+
+   Two lengths set the whole thing: how far apart the ticks are, and how tall
+   the band is. */
+.page-banner {
+  --dial-tick: 14px;
+  --dial-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 2.5rem;
+  gap: 0;
+}
+
+.page-banner__dial {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  height: var(--dial-height);
+  flex: 0 1 auto;
+  align-items: center;
+  padding: 0 calc(var(--dial-tick) * 2);
+  background:
+    /* the band's own edges */
+    linear-gradient(var(--radio-amber) 0 0) top / 100% 2px no-repeat,
+    linear-gradient(var(--radio-amber) 0 0) bottom / 100% 2px no-repeat,
+    /* a long tick every fourth mark, the way a dial numbers its stations */
+    repeating-linear-gradient(90deg, var(--radio-amber) 0 2px,
+      transparent 2px calc(var(--dial-tick) * 4)) top / 100% 13px no-repeat,
+    repeating-linear-gradient(90deg, var(--radio-amber) 0 2px,
+      transparent 2px calc(var(--dial-tick) * 4)) bottom / 100% 13px no-repeat,
+    /* and the short ones between them */
+    repeating-linear-gradient(90deg, rgba(var(--radio-amber-rgb), 0.5) 0 2px,
+      transparent 2px var(--dial-tick)) top / 100% 7px no-repeat,
+    repeating-linear-gradient(90deg, rgba(var(--radio-amber-rgb), 0.5) 0 2px,
+      transparent 2px var(--dial-tick)) bottom / 100% 7px no-repeat,
+    var(--block);
+}
+
+/* The theme puts an anchor bar beside every heading. On the dial it would sit
+   against the scale as a stray tick, and the heading is not a place anyone
+   needs to link to on a page with one heading. */
+.page-banner__dial h1 > a.headerlink {
+  display: none;
+}
+
+.page-banner__dial h1 {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  color: var(--foreground-strong);
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  line-height: 1.2;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The masts stand upright and overlap the band, so the scale reads as running
+   behind them rather than stopping at them. */
+.page-banner__mast {
+  z-index: 1;
+  flex: 0 0 auto;
+  margin: 0 calc(var(--dial-tick) * -0.5);
+  color: var(--radio-amber);
+}
+
+.page-banner__mast svg {
+  display: block;
+  width: 60px;
+  height: 60px;
+  image-rendering: pixelated;
+  shape-rendering: crispEdges;
+}
+
+@media (max-width: 600px) {
+  .page-banner {
+    --dial-tick: 10px;
+    --dial-height: 74px;
+  }
+
+  .page-banner__mast svg {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Gabl's Simple Pixel Cursors keep the pointer on the same grid as the rest of
+   the site. The light set matches the bright dial markings and controls. The
+   22px drawing stays subordinate to the interface; image-set keeps its doubled
+   counterpart crisp on high-density screens. The plain declaration is the
+   compatibility path. */
+body {
+  cursor: url('/images/cursors/pointer.png') 0 0, auto;
+  cursor: image-set(
+    url('/images/cursors/pointer.png') 1x,
+    url('/images/cursors/pointer@2x.png') 2x
+  ) 0 0, auto;
+}
+
+a,
+button,
+summary,
+[role='button'],
+label,
+.palette-option,
+.navbar-tool {
+  cursor: url('/images/cursors/link.png') 0 0, pointer;
+  cursor: image-set(
+    url('/images/cursors/link.png') 1x,
+    url('/images/cursors/link@2x.png') 2x
+  ) 0 0, pointer;
+}
+
+body:active,
+body:active * {
+  cursor: url('/images/cursors/grab.png') 10 11, grabbing;
+  cursor: image-set(
+    url('/images/cursors/grab.png') 1x,
+    url('/images/cursors/grab@2x.png') 2x
+  ) 10 11, grabbing;
+}
+
+/* Moving across the hero tunes the dial: the sweep stops running on its own and
+   follows the pointer instead, in steps so it stays on the grid. It resumes
+   sweeping the moment the pointer leaves. */
+.site-hero.is-tuning .hero-signal::after {
+  left: clamp(0%, calc(var(--tune, 50%) - 9%), 82%);
+  animation: none;
+  transition: left 90ms steps(5, end);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-hero.is-tuning .hero-signal::after {
+    transition: none;
   }
 }

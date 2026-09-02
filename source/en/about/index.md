@@ -13,7 +13,9 @@ Wavepick is a terminal player for people who listen to Taiwanese radio. It bring
 
 ## Why the terminal
 
-Radio belongs in the background, while the terminal is quick to control. Wavepick needs no browser tab and no mouse: launch it, choose a station, change volume or set a sleep timer without leaving your workflow.
+Radio never asked you to watch it. Opening another tab or another player is more trouble than choosing a station, changing the volume and setting a sleep timer right there in the terminal.
+
+Wavepick wants radio to sit at the edge of your work. Pick up a wave from the terminal when you want to listen; let it fall back into the background when you don't, and keep you company while the hours pass.
 
 ## Built with
 

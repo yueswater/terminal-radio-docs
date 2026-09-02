@@ -7,13 +7,9 @@ permalink: /en/license/
 menu_id: license
 ---
 
-# Copyright and license
-
-terminal-radio and this website's source code are released under the MIT License.
+Wavepick and this website's source code are released under the MIT License.
 
 Copyright © 2026 Anthony Sung
-
-## MIT License
 
 ```text
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,4 +33,6 @@ SOFTWARE.
 
 The complete license is available in the [website repository](https://github.com/yueswater/terminal-radio-docs/blob/main/LICENSE) and [application repository](https://github.com/yueswater/terminal-radio/blob/main/LICENSE).
 
-The site uses Departure Mono under the MIT License and Cubic 11 under the SIL Open Font License 1.1. Both font licenses ship with the website source.
+The site uses [Departure Mono](https://github.com/rektdeckard/departure-mono) under the MIT License and [Cubic 11](https://github.com/ACh-K/Cubic-11) under the SIL Open Font License 1.1. Both font licenses ship with the website source.
+
+The site cursor uses Gabl's [Simple Pixel Cursors](https://gabl18.itch.io/simple-pixel-cursors), released under CC0 1.0 Universal (public-domain dedication). The original license and source notes ship with the website source.

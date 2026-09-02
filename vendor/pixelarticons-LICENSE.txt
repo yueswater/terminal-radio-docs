@@ -1,17 +1,7 @@
----
-title: 版權
-layout: page
-lang: zh-TW
-description: "拾波以 MIT 授權釋出，可自由使用、修改與散布。內含的像素字型各自保有原本的授權。"
-permalink: /license/
-menu_id: license
----
+MIT License
 
-拾波與本網站的原始碼採用 MIT License。
+Copyright (c) 2019 Gerrit Halfmann
 
-Copyright © 2026 Anthony Sung
-
-```text
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -29,10 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-```
-
-完整授權檔可在[網站 repo](https://github.com/yueswater/terminal-radio-docs/blob/main/LICENSE) 與[程式 repo](https://github.com/yueswater/terminal-radio/blob/main/LICENSE) 閱讀。
-
-網站使用的 [Departure Mono](https://github.com/rektdeckard/departure-mono) 採 MIT License；[Cubic 11（俐方體十一號）](https://github.com/ACh-K/Cubic-11)採 SIL Open Font License 1.1。兩份字體授權皆隨網站原始碼提供。
-
-網站游標使用 Gabl 創作的 [Simple Pixel Cursors](https://gabl18.itch.io/simple-pixel-cursors)，採 CC0 1.0 Universal（公眾領域貢獻）。原始授權與來源說明亦隨網站原始碼提供。

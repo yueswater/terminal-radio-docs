@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="972" height="144"
-     viewBox="0 0 972 144" role="img" aria-labelledby="title desc">
+     viewBox="0 0 972 144" shape-rendering="crispEdges" role="img" aria-labelledby="title desc">
   <title id="title">Wavepick</title>
-  <desc id="desc">An app icon with antennas and a prompt, beside the WAVEPICK word mark.</desc>
+  <desc id="desc">A pixel television with aerials and a play mark, beside the WAVEPICK word mark.</desc>
   <defs>
     <linearGradient id="spectrum" gradientUnits="userSpaceOnUse"
                     x1="0" y1="0" x2="972" y2="0">
@@ -13,23 +13,40 @@
       <stop offset="86%" stop-color="#4361ee"/>
       <stop offset="100%" stop-color="#b5179e"/>
     </linearGradient>
-    <mask id="prompt">
-      <rect x="0" y="40" width="104" height="104" rx="22" fill="#fff"/>
-      <rect x="22" y="60" width="10" height="10" fill="#000"/>
-      <rect x="32" y="70" width="10" height="10" fill="#000"/>
-      <rect x="42" y="80" width="10" height="10" fill="#000"/>
-      <rect x="32" y="90" width="10" height="10" fill="#000"/>
-      <rect x="22" y="100" width="10" height="10" fill="#000"/>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff4d6d"/>
+      <stop offset="100%" stop-color="#ff9f1c"/>
+    </linearGradient>
+    <mask id="screen">
+      <rect x="6" y="6" width="12" height="12" fill="#fff"/>
+      <rect x="90" y="6" width="12" height="12" fill="#fff"/>
+      <rect x="12" y="18" width="6" height="6" fill="#fff"/>
+      <rect x="90" y="18" width="6" height="6" fill="#fff"/>
+      <rect x="18" y="24" width="6" height="12" fill="#fff"/>
+      <rect x="84" y="24" width="6" height="12" fill="#fff"/>
+      <rect x="24" y="36" width="6" height="12" fill="#fff"/>
+      <rect x="78" y="36" width="6" height="12" fill="#fff"/>
+      <rect x="30" y="48" width="6" height="6" fill="#fff"/>
+      <rect x="72" y="48" width="6" height="6" fill="#fff"/>
+      <rect x="18" y="54" width="72" height="6" fill="#fff"/>
+      <rect x="12" y="60" width="84" height="72" fill="#fff"/>
+      <rect x="6" y="66" width="6" height="6" fill="#fff"/>
+      <rect x="96" y="66" width="6" height="6" fill="#fff"/>
+      <rect x="0" y="72" width="12" height="48" fill="#fff"/>
+      <rect x="96" y="72" width="12" height="48" fill="#fff"/>
+      <rect x="6" y="120" width="6" height="6" fill="#fff"/>
+      <rect x="96" y="120" width="6" height="6" fill="#fff"/>
+      <rect x="18" y="132" width="72" height="6" fill="#fff"/>
+      <rect x="30" y="66" width="12" height="12" fill="#000"/>
+      <rect x="42" y="78" width="12" height="12" fill="#000"/>
+      <rect x="54" y="90" width="12" height="12" fill="#000"/>
+      <rect x="42" y="102" width="12" height="12" fill="#000"/>
+      <rect x="30" y="114" width="12" height="12" fill="#000"/>
     </mask>
   </defs>
-  <g stroke="url(#spectrum)" stroke-width="7" stroke-linecap="round">
-    <line x1="36.0" y1="46" x2="10" y2="14"/>
-    <line x1="68.0" y1="46" x2="94" y2="14"/>
-  </g>
-  <circle cx="10" cy="14" r="7" fill="url(#spectrum)"/>
-  <circle cx="94" cy="14" r="7" fill="url(#spectrum)"/>
-  <rect x="0" y="40" width="104" height="104" rx="22"
-        fill="url(#spectrum)" mask="url(#prompt)"/>
+  <!-- The same mark as the favicon, at 6 units to the cell. -->
+  <rect x="-18" y="6" width="144" height="144"
+        fill="url(#mark)" mask="url(#screen)"/>
   <g fill="url(#spectrum)" shape-rendering="crispEdges">
     <rect x="146" y="57" width="28" height="14"/>
     <rect x="216" y="57" width="28" height="14"/>

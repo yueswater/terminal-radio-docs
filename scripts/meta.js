@@ -22,7 +22,9 @@ const SITE = {
   },
 };
 
-const OG_IMAGE = '/images/og.png';
+// One card per language: the Chinese one says 拾波, which the Latin word
+// mark alone never does.
+const OG_IMAGE = { 'zh-TW': '/images/og.png', en: '/images/og-en.png' };
 
 function escape(text) {
   return String(text)
@@ -52,6 +54,7 @@ hexo.extend.filter.register('after_render:html', function (html, data) {
   const base = config.url.replace(/\/$/, '') + '/';
   const english = String(page.lang || '') === 'en';
   const site = english ? SITE.en : SITE['zh-TW'];
+  const image = english ? OG_IMAGE.en : OG_IMAGE['zh-TW'];
 
   const here = ('/' + String(page.path).replace(/index\.html$/, '')).replace(/\/{2,}/g, '/');
   const there = counterpart(here, english);
@@ -72,14 +75,14 @@ hexo.extend.filter.register('after_render:html', function (html, data) {
     `<meta property="og:url" content="${escape(absolute(base, here))}">`,
     `<meta property="og:locale" content="${site.locale}">`,
     `<meta property="og:locale:alternate" content="${site.otherLocale}">`,
-    `<meta property="og:image" content="${escape(absolute(base, OG_IMAGE))}">`,
+    `<meta property="og:image" content="${escape(absolute(base, image))}">`,
     `<meta property="og:image:width" content="1200">`,
     `<meta property="og:image:height" content="630">`,
     `<meta property="og:image:alt" content="${escape(site.name)}">`,
     `<meta name="twitter:card" content="summary_large_image">`,
     `<meta name="twitter:title" content="${escape(title)}">`,
     `<meta name="twitter:description" content="${escape(description)}">`,
-    `<meta name="twitter:image" content="${escape(absolute(base, OG_IMAGE))}">`,
+    `<meta name="twitter:image" content="${escape(absolute(base, image))}">`,
   ].join('\n');
 
   return html

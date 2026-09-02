@@ -1,5 +1,5 @@
 # Site
-title: terminal-radio
+title: Wavepick
 subtitle: FM · AM · Taiwan
 description: Terminal radio player for Taiwanese FM and AM stations, with a Textual UI and a FastAPI control API
 keywords: radio, terminal, tui, textual, taiwan, fm, am, mpv
@@ -47,14 +47,14 @@ syntax_highlighter: highlight.js
 highlight:
   line_number: false
   auto_detect: false
-  tab_replace: '  '
+  tab_replace: "  "
 
 # No home page is generated: source/index.md is the home page.
 
 # Date / Time format
 date_format: YYYY-MM-DD
 time_format: HH:mm
-updated_option: 'mtime'
+updated_option: "mtime"
 
 # Pagination. A landing page has nothing to page through.
 per_page: 0
