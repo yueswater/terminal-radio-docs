@@ -2,6 +2,7 @@
 title: terminal-radio
 layout: page
 lang: en
+description: "Wavepick is a radio you run in a terminal. Forty-four Taiwanese FM and AM stations are built in, with search, listening history and shell control."
 permalink: /en/
 menu_id: home
 ---

@@ -2,6 +2,7 @@
 title: 關於拾波
 layout: page
 lang: zh-TW
+description: "拾波為什麼長這樣：為終端機而寫的收音機，聲音交給 mpv，介面用 Textual，電台清單與程式碼分開存放。"
 permalink: /about/
 menu_id: about
 ---

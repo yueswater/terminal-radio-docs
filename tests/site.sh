@@ -116,6 +116,35 @@ for page in pages.values():
         "a", href="https://yueswater.com", target="_blank", rel="noopener"
     ), page.path
 
+# What a search engine and a chat app are shown. Each page says what it is in
+# its own words, points at its translation, and shares one raster preview:
+# social platforms do not render SVG.
+for name, page in pages.items():
+    english = name.endswith("_en")
+    body = Path(page.path).read_text(encoding="utf-8")
+    for tag in ("og:title", "og:description", "og:url", "og:image", "og:site_name",
+                "twitter:card", "og:locale"):
+        assert tag in body, f"{page.path} is missing {tag}"
+    assert 'content="https://wavepick.yueswater.com/images/og.png"' in body, page.path
+    assert 'content="summary_large_image"' in body, page.path
+    assert '<link rel="canonical"' in body, page.path
+    assert 'hreflang="x-default"' in body, page.path
+    assert 'hreflang="zh-Hant"' in body and 'hreflang="en"' in body, page.path
+    assert f'content="{"en_US" if english else "zh_TW"}"' in body, page.path
+    # The description belongs to the page, not scraped off its buttons.
+    assert "開始使用" not in body.split("</head>")[0], page.path
+    assert body.count('<meta name="description"') == 1, page.path
+
+sitemap = Path("public/sitemap.xml").read_text(encoding="utf-8")
+assert sitemap.count("<loc>") == len(pages), sitemap.count("<loc>")
+assert sitemap.count("xhtml:link") == len(pages) * 2
+robots = Path("public/robots.txt").read_text(encoding="utf-8")
+assert "Sitemap: https://wavepick.yueswater.com/sitemap.xml" in robots
+assert "Disallow: /" not in robots
+
+preview = Path("public/images/og.png").read_bytes()
+assert preview[:8] == b"\x89PNG\r\n\x1a\n", "the preview must be a real PNG"
+
 assert pages["guide"].title == "使用教學 | 拾波 —— 臺灣廣播"
 assert pages["guide_en"].title == "Guide | Wavepick — Taiwan Radio"
 for page in pages.values():

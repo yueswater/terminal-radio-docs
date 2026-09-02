@@ -2,6 +2,7 @@
 title: Guide
 layout: page
 lang: en
+description: "How to install and use Wavepick: setup, updating, the search syntax, backup streams, listening and track history, and driving playback from the shell."
 permalink: /en/docs/
 menu_id: docs
 ---

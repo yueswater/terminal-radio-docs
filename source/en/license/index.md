@@ -2,6 +2,7 @@
 title: License
 layout: page
 lang: en
+description: "Wavepick is released under the MIT licence, free to use, change and redistribute. The pixel fonts it ships keep their own licences."
 permalink: /en/license/
 menu_id: license
 ---

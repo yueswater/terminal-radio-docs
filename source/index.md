@@ -2,6 +2,7 @@
 title: terminal-radio
 layout: page
 lang: zh-TW
+description: "拾波是一個在終端機裡聽廣播的程式。內建 44 個臺灣 FM 與 AM 電台，可以搜尋、記錄收聽時間，也能直接用指令列操作。"
 permalink: /
 menu_id: home
 ---

@@ -2,6 +2,7 @@
 title: About Wavepick
 layout: page
 lang: en
+description: "Why Wavepick is built the way it is: a radio made for the terminal, with mpv for sound, Textual for the interface, and the station list kept out of the code."
 permalink: /en/about/
 menu_id: about
 ---

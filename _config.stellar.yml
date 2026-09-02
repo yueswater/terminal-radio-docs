@@ -75,3 +75,8 @@ style:
     background-image:
   site:
     background-image:
+
+# The site writes its own; see scripts/meta.js. Two sets would disagree, and
+# the theme's is built from scraped page text.
+open_graph:
+  enable: false

@@ -2,6 +2,7 @@
 title: 版權
 layout: page
 lang: zh-TW
+description: "拾波以 MIT 授權釋出，可自由使用、修改與散布。內含的像素字型各自保有原本的授權。"
 permalink: /license/
 menu_id: license
 ---

@@ -2,6 +2,7 @@
 title: 使用教學
 layout: page
 lang: zh-TW
+description: "從安裝到日常使用的完整說明：怎麼裝、怎麼更新、搜尋電台的語法、備援串流、收聽紀錄與曲目紀錄，以及在指令列操控播放。"
 permalink: /docs/
 menu_id: docs
 ---
